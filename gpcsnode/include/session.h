@@ -8,7 +8,6 @@
 #include <mutex>
 #include <condition_variable>
 #include "gpcsnode.h"
-#include "TrivialString.h"
 namespace gpcs
 {
 	class session

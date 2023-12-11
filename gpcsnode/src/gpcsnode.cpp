@@ -1,7 +1,6 @@
 #include "gpcsnode.h"
 #include <iostream>
 #include <string>
-#include "TrivialString.h"
 
 gpcs::gpcsnode::gpcsnode() :io_context_()
 {
