@@ -3,12 +3,14 @@
 #include "tasktuple.h"
 #include <boost/thread/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
 gpcs::gpcsserver::gpcsserver(int portnum) :io_service_(),
 acceptor_(io_service_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), portnum))
 {
 	coreportnum = portnum;
-	prime_portnum = coreportnum + 3;
+	prime_portnum = coreportnum + 1;
 	start_accept();//监听连入的node
 }
 
@@ -148,6 +150,8 @@ int gpcs::gpcsserver::tryconnection_publisher(std::string topicname, int ID)
 		//接下来将sig_dummy对应的nodename和ID连接起来，这部分先留后面了，写一个通用接口
 		std::string publishername = sig_dummy->tuples[1]->nodename;
 		std::string subscribername = nodenamelist_inverse[ID];
+		//先测试一下publisher是不是还挂着，不然subscriber连不上publisher的时候会导致
+//execute会自动检查有效性，不用额外的东西
 		connect(publishername, subscribername, topicname);
 		//注意这里的先后顺序，先设置等待，再发送信号
 		//每次连接都要等待完成信号
