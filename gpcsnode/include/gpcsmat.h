@@ -1,8 +1,9 @@
 #pragma once
 #include <boost/serialization/vector.hpp>
+#include <stdexcept>
 namespace gpcs
 {
-    struct mat 
+    struct mat
     {
         int rows;
         int cols;
@@ -30,7 +31,7 @@ namespace gpcs
             // return the pointer to the row
             return data.data() + i * cols;
         }
-        void resize(int nrows,int ncols)
+        void resize(int nrows, int ncols)
         {
             rows = nrows;
             cols = ncols;
@@ -38,7 +39,7 @@ namespace gpcs
             data.reserve(totalsize);
             for (int i = 1; i <= totalsize; i++)
             {
-                double v=0;
+                double v = 0;
                 data.push_back(v);
             }
         }

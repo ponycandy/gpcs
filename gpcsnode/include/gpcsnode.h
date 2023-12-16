@@ -61,6 +61,7 @@ namespace gpcs
 		std::map<std::string, int> topicname_2_sessionindex_map;
 		std::map<std::string, Publisher* > topicname_2_Publisher_map;
 		int coreURL;
+		int USE_MAX_DATA_LENGTH;
 		//下面两个是指令相关的长度，不是数据长度
 		enum { max_length = 1024 };
 		char data_[max_length];

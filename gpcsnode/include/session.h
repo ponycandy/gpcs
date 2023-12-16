@@ -8,6 +8,10 @@
 #include <mutex>
 #include <condition_variable>
 #include "gpcsnode.h"
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+
 namespace gpcs
 {
 	class session
@@ -16,6 +20,31 @@ namespace gpcs
         session(boost::asio::io_context& io_context)
             : socket_(io_context)
         {
+            char* configFile = std::getenv("GPCS_CONFIG_XML_PATH");
+            if (configFile) {
+                std::cout << "Config file path: " << configFile << std::endl;
+                // Now you can use configFile to access the config.xml file
+            }
+            else {
+                std::cerr << "Environment variable CONFIG_XML_PATH is not set" << std::endl;
+            }
+
+            boost::property_tree::ptree pt;
+            try {
+                boost::property_tree::read_xml(configFile, pt);
+            }
+            catch (boost::property_tree::xml_parser_error& e) {
+                std::cerr << "Failed to load config.xml: " << e.what() << std::endl;
+                return;
+            }
+            try {
+                USE_MAX_DATA_LENGTH = pt.get<int>("parameters.databufferlength.value");
+            }
+            catch (boost::property_tree::ptree_bad_path& e) {
+                std::cerr << "Invalid XML format: " << e.what() << std::endl;
+                return;
+            }
+            char* Databuffer_charvec = new char[USE_MAX_DATA_LENGTH];
         }
 
         boost::asio::ip::tcp::socket& socket()
@@ -35,6 +64,7 @@ namespace gpcs
         bool IsPublisher = false;
         bool Isvalid = true;
         int capacity_ = 10;
+        int USE_MAX_DATA_LENGTH;
         std::mutex queueMutex;
         std::condition_variable queueCondition;
         std::string related_topicname;
@@ -44,7 +74,7 @@ namespace gpcs
         
         int ID;
         
-        char Databuffer_charvec[USE_MAX_DATA_LENGTH];
+        char *Databuffer_charvec;
 	};
 }
 
