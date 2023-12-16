@@ -35,6 +35,7 @@ void gpcs::session::handle_read(const boost::system::error_code& error, std::siz
 		std::string str(Databuffer_charvec.begin(), Databuffer_charvec.end());// Convert to std::string
 		//memset(Databuffer_charvec, 0x00, USE_MAX_DATA_LENGTH);//Çå¿Õbuffer
 		Databuffer_charvec.clear();
+		Databuffer_charvec.resize(USE_MAX_DATA_LENGTH);
 		queueMutex.lock();
 		// Push the received data into the lock-free queue
 		if (dataQueue.size() >= capacity_)
