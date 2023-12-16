@@ -44,7 +44,7 @@ namespace gpcs
                 std::cerr << "Invalid XML format: " << e.what() << std::endl;
                 return;
             }
-            char* Databuffer_charvec = new char[USE_MAX_DATA_LENGTH];
+            Databuffer_charvec.resize(USE_MAX_DATA_LENGTH);
         }
 
         boost::asio::ip::tcp::socket& socket()
@@ -73,8 +73,7 @@ namespace gpcs
         std::string nodename;
         
         int ID;
-        
-        char *Databuffer_charvec;
+        std::vector<char> Databuffer_charvec;
 	};
 }
 

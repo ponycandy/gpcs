@@ -4,7 +4,7 @@ void gpcs::session::start()
 {
 	//启动异步读取状态,回调为handle_read
 	//下面这个，每次发送一条数据就会返回
-	socket_.async_read_some(boost::asio::buffer(Databuffer_charvec, USE_MAX_DATA_LENGTH), boost::bind(&session::handle_read, this,
+	socket_.async_read_some(boost::asio::buffer(Databuffer_charvec), boost::bind(&session::handle_read, this,
 		boost::asio::placeholders::error,
 		boost::asio::placeholders::bytes_transferred));
 }
@@ -32,9 +32,8 @@ void gpcs::session::handle_read(const boost::system::error_code& error, std::siz
 {
 	if (!error)
 	{
-		std::string str(Databuffer_charvec); // Convert to std::string
-
-		memset(Databuffer_charvec, 0x00, USE_MAX_DATA_LENGTH);//清空buffer
+		std::string str(Databuffer_charvec.begin(), Databuffer_charvec.end());// Convert to std::string
+		//memset(Databuffer_charvec, 0x00, USE_MAX_DATA_LENGTH);//清空buffer
 		queueMutex.lock();
 		// Push the received data into the lock-free queue
 		if (dataQueue.size() >= capacity_)
@@ -46,7 +45,7 @@ void gpcs::session::handle_read(const boost::system::error_code& error, std::siz
 		dataQueue.push(str);
 		queueMutex.unlock();
 
-		socket_.async_read_some(boost::asio::buffer(Databuffer_charvec, USE_MAX_DATA_LENGTH), boost::bind(&session::handle_read, this,
+		socket_.async_read_some(boost::asio::buffer(Databuffer_charvec), boost::bind(&session::handle_read, this,
 			boost::asio::placeholders::error,
 			boost::asio::placeholders::bytes_transferred));
 	}
