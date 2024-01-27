@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<parameters>
+    <coreportnum type="int">
+        <value>8888</value>
+    </coreportnum>
+    <databufferlength type="int">
+        <value>65536</value>
+    </databufferlength>
+</parameters>

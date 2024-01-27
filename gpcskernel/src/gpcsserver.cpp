@@ -213,6 +213,16 @@ void gpcs::gpcsserver::connect(std::string publisher, std::string subscriber, st
 		pub_command = "client  " + std::to_string(port2use) + " publisher " + topicname + " \n";
 		sub_command = "server  " + std::to_string(port2use) + " subscriber " + topicname + " \n";
 	}
+	//首先检测双向的可通性
+	if (nodegroup[nodenamelist[publisher]]->isvalid() == 1
+		&& nodegroup[nodenamelist[subscriber]]->isvalid() == 1)
+	{
+
+	}
+	else
+	{
+		return;
+	}
 	//接下来发送指令
 	nodegroup[nodenamelist[publisher]]->execute(pub_command);
 	nodegroup[nodenamelist[subscriber]]->execute(sub_command);
