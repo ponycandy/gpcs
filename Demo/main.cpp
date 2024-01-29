@@ -1,6 +1,4 @@
 #include <iostream>
-#include <thread>
-#include <boost/asio.hpp>
 #include "gpcsnode.h"
 
 
