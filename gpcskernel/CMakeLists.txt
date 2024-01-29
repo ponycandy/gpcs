@@ -23,11 +23,10 @@ set(EXECUTABLE_SOURCES
 
 
 
-set(Boost_USE_STATIC_LIBS OFF) 
-set(Boost_USE_MULTITHREADED ON)  
-set(Boost_USE_STATIC_RUNTIME OFF) 
-find_package(Boost REQUIRED COMPONENTS filesystem thread)
+include_directories(/home/nvidia/boost_1_83_0) 
 
-include_directories(${Boost_INCLUDE_DIRS}) 
+
+link_directories(/home/nvidia/boost_1_83_0/stage/lib)
 add_executable (gpcskernel ${EXECUTABLE_SOURCES})
-target_link_libraries(gpcskernel ${Boost_LIBRARIES} gpcsserver boost_thread)
+target_link_libraries(gpcskernel  gpcsserver boost_system boost_system boost_filesystem boost_thread pthread)
+

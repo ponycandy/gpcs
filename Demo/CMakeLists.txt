@@ -6,18 +6,26 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("Demo")
 
-set(Boost_USE_STATIC_LIBS OFF) 
-set(Boost_USE_MULTITHREADED ON)  
-set(Boost_USE_STATIC_RUNTIME OFF) 
-find_package(Boost REQUIRED COMPONENTS filesystem thread serialization)
-include_directories(${Boost_INCLUDE_DIRS}) 
+#set(Boost_USE_STATIC_LIBS ON) 
+#set(Boost_USE_MULTITHREADED ON)  
+#set(Boost_USE_STATIC_RUNTIME OFF)
+#find_package(Boost REQUIRED COMPONENTS filesystem thread serialization)
+include_directories(/home/nvidia/boost_1_83_0) 
+
+
+link_directories(/home/nvidia/boost_1_83_0/stage/lib)
 
 add_executable (Demo  main.cpp)
 
-target_include_directories(Demo  PUBLIC  gpcsnode/include)
+target_include_directories(Demo
+   PUBLIC 
+      gpcsnode/include
+)
+
+target_link_libraries(Demo  gpcsnode boost_thread boost_serialization boost_system pthread)
 
 
-target_include_directories(Demo ${Boost_LIBRARIES} gpcsnode  boost_thread boost_serialization)
+
 
 
 

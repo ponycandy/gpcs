@@ -134,6 +134,7 @@ void gpcs::gpcsnode::spinonce(int ms)
 
 void gpcs::gpcsnode::parse_command(std::string cmd)
 {
+
 	//首先按照空格分割指令，空格数目是可以任意的
 	std::vector<std::string> cmdtokens;
 	std::istringstream iss(cmd);
@@ -262,9 +263,11 @@ gpcs::Subscriber* gpcs::gpcsnode::subscribe(std::string topicname, std::function
 		callback(input);
 	};
 	//然后请求连接
+
 	std::string cmd = "subscribe " + topicname+" \n";
 	execute(cmd);
-	boost::this_thread::sleep(boost::posix_time::seconds(2));
+
+	boost::this_thread::sleep(boost::posix_time::seconds(2));//
 	//必须再执行完成后等待一段时间，这是最简单的同步措施
 	//返回，回调会在连接建立后自动激活
 	//只有在spin的时候，才会执行回调
