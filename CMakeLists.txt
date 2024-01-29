@@ -13,4 +13,5 @@ add_subdirectory(gpcsnode)
 add_subdirectory(gpcskernel)
 
 add_subdirectory(Demo)
+add_compile_options(-fPIC)
 

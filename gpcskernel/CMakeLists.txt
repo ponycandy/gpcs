@@ -6,7 +6,7 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("gpcskernel")
 
-add_library(gpcsserver STATIC 
+add_library(gpcsserver SHARED  
     src/gpcsserver.cpp
      src/session.cpp
 )
