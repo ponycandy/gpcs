@@ -1,15 +1,16 @@
-﻿# CMakeList.txt: gpcskernel 的 CMake 项目，在此处包括源代码并定义
-# 项目特定的逻辑。
-#
+﻿
 cmake_minimum_required (VERSION 3.8)
 
 
 project ("gpcskernel")
-
-add_library(gpcsserver SHARED  
+find_package(Boost REQUIRED COMPONENTS serialization thread system chrono)
+add_library(gpcsserver STATIC  
     src/gpcsserver.cpp
      src/session.cpp
 )
+target_link_libraries (gpcsserver ${Boost_THREAD_LIBRARY_DEBUG} ${Boost_CHRONO_LIBRARY_DEBUG})  
+
+include_directories(${Boost_INCLUDE_DIRS}) 
 
 target_include_directories(gpcsserver
    PUBLIC 
@@ -23,10 +24,9 @@ set(EXECUTABLE_SOURCES
 
 
 
-include_directories(/home/nvidia/boost_1_83_0) 
 
 
-link_directories(/home/nvidia/boost_1_83_0/stage/lib)
-add_executable (gpcskernel ${EXECUTABLE_SOURCES})
-target_link_libraries(gpcskernel  gpcsserver boost_system boost_system boost_filesystem boost_thread pthread)
+
+add_executable (gpcskernel ${EXECUTABLE_SOURCES} )
+target_link_libraries(gpcskernel  gpcsserver ${Boost_THREAD_LIBRARY_DEBUG}  ${Boost_SYSTEM_LIBRARY_DEBUG} ${Boost_SERIALIZATION_LIBRARY_DEBUG})
 
