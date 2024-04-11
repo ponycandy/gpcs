@@ -10,20 +10,18 @@ project ("Demo")
 #set(Boost_USE_MULTITHREADED ON)  
 #set(Boost_USE_STATIC_RUNTIME OFF)
 #find_package(Boost REQUIRED COMPONENTS filesystem thread serialization)
-include_directories(/home/nvidia/boost_1_83_0) 
-
-
-link_directories(/home/nvidia/boost_1_83_0/stage/lib)
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS} ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 
 add_executable (Demo  main.cpp)
-
 target_include_directories(Demo
    PUBLIC 
-      gpcsnode/include
+      ${GPCS_NODE_HEADER}
 )
 
-target_link_libraries(Demo  gpcsnode boost_thread boost_serialization boost_system pthread)
-
+target_link_libraries(Demo PUBLIC gpcsnode ${Boost_THREAD_LIBRARY_DEBUG}
+    ${Boost_CHRONO_LIBRARY_DEBUG} ${Boost_SERIALIZATION_LIBRARY_DEBUG}
+    ${Boost_SYSTEM_LIBRARY_DEBUG} )
 
 
 

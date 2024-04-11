@@ -6,26 +6,22 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("gpcsnode")
 
-add_library(gpcsnode  SHARED 
+add_library(gpcsnode  STATIC
     src/session.cpp
-          src/session.cpp
-src/gpcsnode.cpp
+    src/gpcsnode.cpp
 )
-
 
 
 
 target_include_directories(gpcsnode
    PUBLIC 
+   ${Boost_INCLUDE_DIRS}
       ${PROJECT_SOURCE_DIR}/include
 )
+link_directories(${Boost_LIBRARY_DIRS})
 
-
-
-
-include_directories(/home/nvidia/boost_1_83_0) 
-link_directories(/home/nvidia/boost_1_83_0/stage/lib)
-
-target_link_libraries(gpcsnode  boost_thread)
-
+# target_link_libraries(gpcsnode  boost_thread)
+# message(${Boost_THREAD_LIBRARY_DEBUG})
+target_link_libraries(gpcsnode  ${Boost_THREAD_LIBRARY_DEBUG}
+    ${Boost_CHRONO_LIBRARY_DEBUG} ${Boost_SERIALIZATION_LIBRARY_DEBUG})
 
